@@ -6,7 +6,12 @@ const repository = new ProductRepository();
 exports.create = async (req, res) => {
     const data = req.body
     const product = new Product(data.id, data.type, data.name, data.version, data.price)
-    product ? res.send(product) : res.status(400).send({message: "invalid product"})
+    if(product) {
+        res.type('text/plain'); 
+        res.send(product)
+    } else {
+        res.status(400).send({message: "invalid product"})
+    }
 };
 exports.getAll = async (req, res) => {
     res.send(await repository.fetchAll())
